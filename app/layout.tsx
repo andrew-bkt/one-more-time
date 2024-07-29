@@ -32,6 +32,8 @@ export default function Layout({ children }: LayoutProps) {
         )}
       >
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
