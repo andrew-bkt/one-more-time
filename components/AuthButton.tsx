@@ -1,37 +1,48 @@
-import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+// one-more-time/components/AuthButton.tsx
+'use client'
 
-export default async function AuthButton() {
-  const supabase = createClient();
+import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
+import { Button } from "@/components/ui/button"
+import { useEffect, useState } from 'react'
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function AuthButton() {
+  const supabase = createClient()
+  const router = useRouter()
+  const [user, setUser] = useState<any>(null)
 
-  const signOut = async () => {
-    "use server";
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+    getUser()
+  }, [])
 
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    return redirect("/login");
-  };
+  const handleAction = () => {
+    if (user) {
+      router.push('/dashboard')
+    } else {
+      router.push('/login')
+    }
+  }
 
-  return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
-      <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-          Logout
-        </button>
-      </form>
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    setUser(null)
+    router.refresh()
+  }
+
+  return (
+    <div>
+      <Button onClick={handleAction}>
+        {user ? 'Dashboard' : 'Sign In'}
+      </Button>
+      {user && (
+        <Button onClick={handleSignOut} className="ml-2">
+          Sign Out
+        </Button>
+      )}
     </div>
-  ) : (
-    <Link
-      href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-    >
-      Login
-    </Link>
-  );
+  )
 }

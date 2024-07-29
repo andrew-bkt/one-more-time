@@ -1,0 +1,43 @@
+.
+├── README.md
+├── app
+│   ├── auth
+│   │   └── callback
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── login
+│   │   ├── page.tsx
+│   │   └── submit-button.tsx
+│   ├── page.tsx
+│   └── protected
+│       └── page.tsx
+├── components
+│   ├── AuthButton.tsx
+│   ├── nav-hero.tsx
+│   ├── tutorial
+│   │   ├── Code.tsx
+│   │   ├── ConnectSupabaseSteps.tsx
+│   │   ├── FetchDataSteps.tsx
+│   │   ├── SignUpUserSteps.tsx
+│   │   └── Step.tsx
+│   └── ui
+│       └── button.tsx
+├── components.json
+├── lib
+│   └── utils.ts
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.js
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── structure.tree
+├── tailwind.config.ts
+├── tsconfig.json
+└── utils
+    └── supabase
+        ├── client.ts
+        ├── middleware.ts
+        └── server.ts
+
+12 directories, 29 files
