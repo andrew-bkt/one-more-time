@@ -1,14 +1,24 @@
-// app/dashboard/layout.tsx
+'use client'
+
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import { FiHome, FiSettings, FiUser, FiBarChart2, FiGrid } from 'react-icons/fi';
-
+import { FiHome, FiBarChart2, FiGrid, FiSettings } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
+import { createClient } from "@/utils/supabase/client";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -31,10 +41,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <FiGrid className="mr-3 h-6 w-6" />
                 Projects
               </Link>
-              <Link href="/settings" className="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
-                <FiSettings className="mr-3 h-6 w-6" />
-                Settings
-              </Link>
             </nav>
           </div>
         </div>
@@ -51,15 +57,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="ml-3 relative">
-                  <div>
-                    <button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="user-menu" aria-haspopup="true">
-                      <span className="sr-only">Open user menu</span>
-                      <FiUser className="h-8 w-8 rounded-full" />
-                    </button>
-                  </div>
-                </div>
+              <div className="flex items-center space-x-4">
+                <Link href="/settings" className="text-gray-500 hover:text-gray-700">
+                  <FiSettings className="h-6 w-6" />
+                </Link>
+                <button 
+                  onClick={handleSignOut}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  Sign Out
+                </button>
               </div>
             </div>
           </div>
