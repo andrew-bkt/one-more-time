@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { createClient } from "@/utils/supabase/client"
 import FileUpload from '@/components/FileUpload'
 import FileList from '@/components/FileList'
@@ -8,7 +8,7 @@ import FileList from '@/components/FileList'
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null)
   const [router, setRouter] = useState<any>(null)
-  const [refreshTrigger, setRefreshTrigger] = useState(false)
+  const [refreshKey, setRefreshKey] = useState<number>(0)
   const supabase = createClient()
 
   useEffect(() => {
@@ -23,6 +23,10 @@ export default function Dashboard() {
     getUser()
   }, [])
 
+  const handleRefresh = useCallback(() => {
+    setRefreshKey(prevKey => prevKey + 1)
+  }, [])
+
   if (!user && router) {
     router.push('/login')
     return null
@@ -35,10 +39,10 @@ export default function Dashboard() {
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Your Files</h3>
-          <FileUpload onUploadComplete={() => setRefreshTrigger(prev => !prev)} />
+          <FileUpload onUploadComplete={handleRefresh} />
         </div>
         <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-          <FileList key={refreshTrigger} />
+          <FileList key={refreshKey} />
         </div>
       </div>
     </div>
