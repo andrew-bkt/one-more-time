@@ -61,11 +61,14 @@ export default function FileList() {
       const filePath = `${user.id}/${fileName}`;
       
       // Get a temporary URL for the file
-      const { data: { signedUrl }, error } = await supabase.storage
+      const { data, error } = await supabase.storage
         .from('user_files')
         .createSignedUrl(filePath, 60); // URL valid for 60 seconds
 
       if (error) throw error;
+      if (!data) throw new Error('Failed to create signed URL');
+
+      const signedUrl = data.signedUrl;
 
       // Make API call to FastAPI service
       const response = await fetch(`${process.env.NEXT_PUBLIC_FASTAPI_URL}/process`, {
