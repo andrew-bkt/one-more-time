@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -46,21 +46,21 @@ export default function UserMenu() {
     <div className="ml-3 relative" ref={menuRef}>
       <div>
         <button 
-          className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
+          className="max-w-xs bg-card flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring" 
           id="user-menu" 
           aria-haspopup="true"
           onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
         >
           <span className="sr-only">Open user menu</span>
-          <FiUser className="h-8 w-8 rounded-full" />
+          <FiUser className="h-8 w-8 text-card-foreground rounded-full" />
         </button>
       </div>
       {isUserMenuOpen && (
-        <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-          <a href="/settings" onClick={handleSettingsClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+        <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-card ring-1 ring-border" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+          <a href="/settings" onClick={handleSettingsClick} className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground" role="menuitem">
             <FiSettings className="inline-block mr-2" /> Settings
           </a>
-          <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+          <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground" role="menuitem">
             <FiLogOut className="inline-block mr-2" /> Sign out
           </button>
         </div>

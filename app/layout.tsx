@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import './globals.css';
@@ -26,7 +26,7 @@ export default function Layout({ children }: LayoutProps) {
     <html lang="en">
       <body 
         className={cn(
-          'antialiased',
+          'antialiased bg-background text-foreground',
           fontHeading.variable,
           fontBody.variable
         )}
