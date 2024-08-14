@@ -6,7 +6,7 @@ interface OCRResult {
   user_id: string;
   file_name: string;
   ocr_text: string;
-  structured_invoice: any; // Using 'any' as we don't know the exact structure
+  structured_invoice: string;
   created_at: string;
 }
 
