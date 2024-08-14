@@ -73,12 +73,12 @@ export default function FileList() {
   const processFile = async (fileName: string) => {
     try {
       setProcessing(prev => ({ ...prev, [fileName]: true }));
-      
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('No authenticated user found');
 
       const filePath = `${user.id}/${fileName}`;
-      
+
       // Get a temporary URL for the file
       const { data, error } = await supabase.storage
         .from('user_files')
@@ -117,9 +117,10 @@ export default function FileList() {
       setProcessing(prev => ({ ...prev, [fileName]: false }));
     }
   };
+
   const viewProcessedFile = async (fileName: string) => {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) return
     const { data, error } = await supabase
       .from('ocr_results')
       .select('*')
@@ -130,40 +131,18 @@ export default function FileList() {
     if (error) {
       console.error('Error fetching processed file data:', error);
     } else {
+      console.log('Fetched structured invoice:', data);
       setSelectedFile(data);
     }
   };
 
   const StructuredDataDisplay = ({ data }: { data: any }) => {
     if (!data || !data.structured_invoice) return <p>No data available</p>;
-    const invoice = data.structured_invoice;
-
+    
     return (
-      <div className="space-y-4">
-        <div>
-          <h3 className="font-semibold">Vendor</h3>
-          <p>Name: {invoice.vendor?.name || 'N/A'}</p>
-          <p>Address: {invoice.vendor?.address || 'N/A'}</p>
-          <p>Phone: {invoice.vendor?.phone || 'N/A'}</p>
-        </div>
-        <div>
-          <h3 className="font-semibold">Invoice Details</h3>
-          <p>Number: {invoice.invoice?.number || 'N/A'}</p>
-          <p>Date: {invoice.invoice?.date || 'N/A'}</p>
-        </div>
-        <div>
-          <h3 className="font-semibold">Items</h3>
-          {invoice.items && invoice.items.length > 0 ? (
-            <ul className="list-disc pl-5">
-              {invoice.items.map((item: any, index: number) => (
-                <li key={index}>{item.name} - Quantity: {item.quantity || 'N/A'}, Price: {item.price || 'N/A'}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No items available</p>
-          )}
-        </div>
-      </div>
+      <pre className="overflow-auto bg-muted p-4 rounded max-h-96">
+        {JSON.stringify(JSON.parse(data.structured_invoice), null, 2)}
+      </pre>
     );
   };
 
@@ -192,7 +171,7 @@ export default function FileList() {
                         <FiEye className="h-5 w-5" />
                       </button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[425px] overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>{file.name}</DialogTitle>
                       </DialogHeader>
