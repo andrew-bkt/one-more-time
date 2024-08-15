@@ -10,6 +10,7 @@ interface OCRResult {
   file_name: string
   ocr_text: string
   created_at: string
+  structured_invoice: string
 }
 
 export default function Analytics() {
